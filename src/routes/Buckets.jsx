@@ -13,8 +13,6 @@ const Buckets = () => {
 
     const handleDisable = (destinationBucket) => disableOrEnableSelection(destinationBucket,"disable");
 
-
-
     useEffect(() => {
 
         const bucket1Div = document.getElementById('bucket-1');
@@ -24,16 +22,10 @@ const Buckets = () => {
 
         const handleSelection = (e) => selectionAndDeselection(e,selectedItemsRef,setSelectedItems,destinationBucket,handleDisable);
 
-        function setupEventListners(){
-            if(itemTransferringBucket && destinationBucket){
-                destinationBucket.addEventListener('mouseenter' , handleDisable(destinationBucket));
-            }
-        }
-
         function handleBucketClick(clickedBucket){
             itemTransferringBucket = clickedBucket === "bucket1" ? bucket1Div : bucket2Div;
             destinationBucket = clickedBucket === "bucket1" ? bucket2Div : bucket1Div;
-            setupEventListners();
+            destinationBucket.addEventListener('mouseenter' , handleDisable(destinationBucket));
             if(clickedBucket === "bucket1"){
                 setBucketContainer({transferringBucket:bucket1Div,destinationBucket:bucket2Div})
             } else {
@@ -42,24 +34,22 @@ const Buckets = () => {
         }
 
         bucket1Div.addEventListener('click' , (e) => {
-            handleBucketClick("bucket1",e)
+            handleBucketClick("bucket1")
             itemTransferringBucket.addEventListener('click' , handleSelection(e));
         })
 
         bucket2Div.addEventListener('click' , (e) => {
-            handleBucketClick("bucket2",e)
+            handleBucketClick("bucket2")
             itemTransferringBucket.addEventListener('click' , handleSelection(e));
         })
 
-        // on component unmount
-        function removeEventListners(){
+        // remove event listners on component unmount
+        return () => {
             if(itemTransferringBucket && destinationBucket){
                 itemTransferringBucket.removeEventListener('click' , handleSelection);
                 destinationBucket.removeEventListener('mouseenter' , handleDisable);
             }
         }
-  
-        return () => removeEventListners();
 
     },[])
 
@@ -76,10 +66,33 @@ const Buckets = () => {
             </div>
 
             <div id='options'>
-                <Button name={"Add"} color="success" fn={() => transferItems(setSelectedItems,selectedItemsRef,setBucket1,setBucket2,bucket1,bucket2,bucketContainer,handleDisable)} isDisabled={selectedItems.length === 1 ? false : true}  />
-                <Button name={"Remove"} color="danger" fn={() => deleteItems(bucketContainer,selectedItemsRef,bucket1,bucket2,setBucket1,setBucket2,setSelectedItems,handleDisable)}  isDisabled={selectedItems.length === 1 ? false : true}  />
-                <Button name={"Add All"} color="success" fn={() => transferItems(setSelectedItems,selectedItemsRef,setBucket1,setBucket2,bucket1,bucket2,bucketContainer,handleDisable)} isDisabled={selectedItems.length > 1 ? false : true}  />
-                <Button name={"Remove All"} color="danger" fn={() => deleteItems(bucketContainer,selectedItemsRef,bucket1,bucket2,setBucket1,setBucket2,setSelectedItems,handleDisable)}  isDisabled={selectedItems.length > 1 ? false : true}  />
+                <Button 
+                name={"Add"} 
+                color="success" 
+                fn={() => transferItems(setSelectedItems,selectedItemsRef,setBucket1,setBucket2,bucket1,bucket2,bucketContainer,handleDisable)} 
+                isDisabled={selectedItems.length === 1 ? false : true}  
+                />
+
+                <Button 
+                name={"Remove"} 
+                color="danger" 
+                fn={() => deleteItems(bucketContainer,selectedItemsRef,bucket1,bucket2,setBucket1,setBucket2,setSelectedItems,handleDisable)}  
+                isDisabled={selectedItems.length === 1 ? false : true}  
+                />
+
+                <Button 
+                name={"Add All"} 
+                color="success" 
+                fn={() => transferItems(setSelectedItems,selectedItemsRef,setBucket1,setBucket2,bucket1,bucket2,bucketContainer,handleDisable)} 
+                isDisabled={selectedItems.length > 1 ? false : true}  
+                />
+
+                <Button 
+                name={"Remove All"} 
+                color="danger" 
+                fn={() => deleteItems(bucketContainer,selectedItemsRef,bucket1,bucket2,setBucket1,setBucket2,setSelectedItems,handleDisable)}  
+                isDisabled={selectedItems.length > 1 ? false : true}  
+                />
             </div>
 
             <div id='bucket-2' className='bucket'>
