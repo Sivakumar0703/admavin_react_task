@@ -94,3 +94,29 @@
   font-size: larger;
   margin-bottom: 20px;
 }
+
+/* box split component */
+
+#box-split-page{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:5px;
+  min-height:100vh;
+}
+
+#initial-square{
+  height:40vw;
+  width:40vw;
+  background-color: black;
+}
+
+.four-div{
+  display: grid;
+  grid-template: repeat(2,1fr) / repeat(2,1fr);
+}
+
+.child-div-style{
+  outline:0.5px solid red;
+}

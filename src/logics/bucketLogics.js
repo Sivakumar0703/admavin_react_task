@@ -10,7 +10,6 @@ export function selectionAndDeselection(e,selectedItemsRef,setSelectedItems,dest
             setSelectedItems(newlySelectedValue);
             if(!newlySelectedValue.length){
                 destinationBucket.removeEventListener('mouseenter' , handleDisable);
-                // enableSelectionArea(destinationBucket);
                 disableOrEnableSelection(destinationBucket,"enable");
             }
         } else {
@@ -20,23 +19,6 @@ export function selectionAndDeselection(e,selectedItemsRef,setSelectedItems,dest
     }
 }
 
-// disable cursor for selecting items in destination bucket
-// export function disableSelectionArea(bucket){
-//     bucket.style.cursor = "not-allowed";
-//     const pTags = bucket.getElementsByTagName('p');
-//     for(let i=0; i<pTags.length; i++){
-//         pTags[i].style.cursor = "not-allowed";
-//     }
-// }
-
-// enable cursor for selecting items
-// export function enableSelectionArea(bucket){
-//     bucket.style.cursor = "default";
-//     const pTags = bucket.getElementsByTagName('p');
-//     for(let i=0; i<pTags.length; i++){
-//         pTags[i].style.cursor = "pointer";
-//     }
-// }
 
 // operation = enable | operation = disable
 export function disableOrEnableSelection(bucket,operation){
@@ -58,7 +40,6 @@ export function transferItems(setSelectedItems,selectedItemsRef,setBucket1,setBu
         setBucket1(prev => [...prev , ...selectedItems]);
     }
     bucketContainer.destinationBucket.removeEventListener('mouseenter' , handleDisable);
-    // enableSelectionArea(bucketContainer.destinationBucket);
     disableOrEnableSelection(bucketContainer.destinationBucket,"enable");
     setSelectedItems([]);
 }
@@ -84,7 +65,6 @@ export function deleteItems(bucketContainer,selectedItemsRef,bucket1,bucket2,set
         setBucket2(updatedItemsList);
     }
     bucketContainer.destinationBucket.removeEventListener('mouseenter' , handleDisable);
-    // enableSelectionArea(bucketContainer.destinationBucket);
     disableOrEnableSelection(bucketContainer.destinationBucket,"enable");
     setSelectedItems([]);
 }

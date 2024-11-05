@@ -7,8 +7,10 @@ const InfiniteScroll = () => {
     const [loading , setLoading] = useState(false);
 
     useEffect(() => {  
-
+        // load initial content
         loadContentsDynamically(loading,setLoading,setContainers);
+
+        // debouncing applied on scroll event
         const debounceHandleScroll = debounce(() => loadContentsDynamically(loading,setLoading,setContainers),300)
         window.addEventListener("scroll",debounceHandleScroll);
         return () => {
