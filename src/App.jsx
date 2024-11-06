@@ -1,5 +1,6 @@
 import './App.css'
-import CreateDivOnClick from './routes/CreateDivOnClick'
+// import CreateDivOnClick from './routes/CreateDivOnClick'
+import HitGame from './routes/HitGame'
 // import Buckets from './routes/Buckets'
 // import InfiniteScroll from './routes/InfiniteScroll'
 // import Home from './routes/Home'
@@ -11,7 +12,8 @@ function App() {
       {/* <Home /> */}
       {/* <Buckets /> */}
       {/* <InfiniteScroll /> */}
-      <CreateDivOnClick />
+      {/* <CreateDivOnClick /> */}
+      <HitGame />
     </> 
   )
 }

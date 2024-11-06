@@ -120,3 +120,29 @@
 .child-div-style{
   outline:0.5px solid red;
 }
+
+/* hit game component stylings */
+
+#hit-game-page{
+  min-height:100vh;
+  background-color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#cell-container{
+  height:30vw;
+  width:30vw;
+  display: grid;
+  grid-template: repeat(3,1fr) / repeat(3,1fr) ;
+}
+
+.cell{
+  min-height: 10vw;
+  min-width: 10vw;
+  border: 1px solid black;
+  text-align: center;
+  line-height:10vw ;
+}
