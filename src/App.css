@@ -145,4 +145,5 @@
   border: 1px solid black;
   text-align: center;
   line-height:10vw ;
+  cursor: default;
 }

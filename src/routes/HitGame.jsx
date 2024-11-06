@@ -1,110 +1,101 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { generateRandomNumber } from '../logics/hitGameLogics'
+import { handleClick , startGame , setKey , endGame, resetGame } from '../logics/hitGameLogics'
 import Button from "../components/Button"
 
 const HitGame = () => {
 
-    const [cells , setCells] = useState(Array.from({length:9},() => ""));
-    const [isDisabled , setIsDisabled] = useState(false);
+    const [cells , setCells] = useState(Array(9).fill(""));
     const [score , setScore] = useState(0);
-    const [userClicked , setUserClicked] = useState(false);
-    const intervalTimer = useRef(null);
-    const timeoutTimer = useRef(null);
-    const watchUserActionId = useRef(null);
-    // let intervalTimer;
-    // let timeoutTimer;
-    // let watchUserActionId;
-    const userClickedRef = useRef(null);
-    userClickedRef.current = userClicked;
+    const [isPlaying , setIsPlaying] = useState(false);
+    const [isDisabled , setIsDisabled] = useState(false);
+    const [isClickAllowed , setIsClickAllowed] = useState(true); // prevents user from clicking multiples times in single game
+    const [isGameOver , setIsGameOver] = useState(false);
+    const cellsRef = useRef(null);
+    const intervalRef = useRef(null);
+    const timeoutRef = useRef(null);
+    const isClickAllowedRef = useRef(null);
+    const clearCellsTimeoutIdRef = useRef(null);
 
-
-    function startGame(){
-        setIsDisabled(true);
-        initiateGame();
-        endGame(intervalTimer);
-
-    }
-
-    function initiateGame(){
-        intervalTimer.current = setInterval(()=>{
-            watchUserAction();
-            setCells(Array.from({length:9},() => ""));
-            const targetDiv = generateRandomNumber(); // random number between 0 and 8
-            setCells(prev => {
-                prev[targetDiv] = "HIT";
-                return [...prev]
-            })
-            console.log("target",targetDiv)
-        },1000)
-    }
-
-    function watchUserAction(){
-        watchUserActionId.current = setInterval(()=>{
-            if(!userClickedRef.current){
-                setScore(prevScore =>  prevScore - 2.5);
-                // console.log("score",score)
-            }
-        },1100)
-    }
-
-    function endGame(intervalTimer){
-        console.log("end timer start");
-         timeoutTimer.current = setTimeout(() => {
-            const gameArea = document.getElementById('cell-container');
-            gameArea.style.cursor = "not-allowed";
-            console.log("clear interval id",intervalTimer.current)
-            clearInterval(intervalTimer.current);
-            clearInterval(watchUserActionId.current);
-            alert('Game Ends',score);
-        },5100)
-    }
-
-    function hit(intervalTimer,event){
-        // clearInterval(intervalTimer.current);
-        const clickedDiv = event.target;
-        // const para = clickedDiv.getElementsByTagName('p')[0]; 
-        console.log("clickedDiv",clickedDiv)
-        // console.log("hit",para)
-        // setScore(prevScore => para.innerText ? prevScore + 5 : prevScore - 2.5);
-        // setUserClicked(true); // user clicked 
-        // initiateGame();
-    }
-
-    function handleClick(event){
-        console.log("handle click called",event.target.innerText)
-        hit(intervalTimer,event)
-    }
+    // make the ref always to hold the current value
+    useEffect(() => {
+        cellsRef.current = cells;
+    },[cells])
 
     useEffect(() => {
-        const parent = document.getElementById('cell-container');
+        isClickAllowedRef.current = isClickAllowed;
+    },[isClickAllowed])
 
+    // set keyword after 1s
+    const setKeyWrapper = () => {
+        setIsClickAllowed(true);
+        setKey(setCells,setScore,setIsClickAllowed,isClickAllowedRef,clearCellsTimeoutIdRef);
+    }
 
-        parent.addEventListener('click',handleClick)
+    // clear interval and timeout when game ends
+    const endGameWrapper = () => {
+        endGame(setIsPlaying,intervalRef,timeoutRef,setCells,clearCellsTimeoutIdRef,setIsGameOver);
+    }
 
-        return () => {
-            clearTimeout(timeoutTimer.current);
-            parent.removeEventListener('click',handleClick);
+    // track the user action
+    const handleClickWrapper = (index) => {
+        if(isClickAllowed){
+            setIsClickAllowed(false);
+            handleClick(index,cellsRef,setScore);
+        }
+    }
+
+    // 1.100 second is implemented because it take some time to clear the previous keyword and set the new one.
+    // if we use 1000 then there will be clash between clearing the previous keyword and creating the new keyword.
+    useEffect(() => {
+
+        if(isPlaying){
+            intervalRef.current = setInterval(setKeyWrapper , 1100); // for 5 games - 1100 | for 1 minute - 1100
+            timeoutRef.current = setTimeout(endGameWrapper,6550); // for 5 games - 6550 | for 1 minute - 60000
+            return () => {
+                clearInterval(intervalRef.current);
+                clearTimeout(timeoutRef.current);
+            }    
         }
 
-    },[])
+    },[isPlaying])
 
+    return(
+        <div id='hit-game-page'>
 
+            <h2 className='title'>HIT GAME</h2>
 
-  return (
-    <div id='hit-game-page'>
+            {/* gamming area */}
 
-        <div id='cell-container'>
+            <div id='cell-container'>
             {
-                cells.map((cell,index) => <div key={index} className='cell'>{cell && cell}</div>)
+                cells.map((cell,index) => <div key={index} onClick={() => handleClickWrapper(index)} className='cell'>{cell && cell}</div>)
             }
-        </div>
+            </div>
 
-        <div>
-            <Button name="START GAME" fn={startGame} color="success" isDisabled={isDisabled} />
-        </div>
+            {/* game start and restart buttons */}
+            <div>
+                {
+                    isGameOver ? 
+                    <Button name="RESTART" fn={() => resetGame(setCells,setScore,setIsPlaying,setIsDisabled,setIsGameOver)} color="primary" /> 
+                    :
+                    <Button name="START GAME" fn={() => startGame(setIsPlaying,setScore,setIsDisabled)} color="success" isDisabled={isDisabled} />
+                }
+            </div>
 
-    </div>
-  )
+            {/* display score area */}
+            <div>
+                {
+                    isGameOver ? 
+                    <div>
+                        <h3>YOUR SCORE IS : <span>{score}</span></h3>
+                    </div> 
+                    : ""
+                }
+            </div>
+
+        </div>
+    )
 }
+
 
 export default HitGame
