@@ -147,3 +147,29 @@
   line-height:10vw ;
   cursor: default;
 }
+
+/* folder structure component */
+
+#folder-structure-page{
+  padding:30px;
+}
+.folder-items{
+  margin: 5px;
+  padding: 5px;
+  width:150px;
+  cursor: pointer;
+}
+
+.folder-items:hover{
+  background-color: cadetblue;
+}
+
+.right-side-folder{
+  position: absolute;
+  left:150px;
+  top:0;
+} 
+
+
+
+
