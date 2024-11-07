@@ -2,6 +2,8 @@
 
 const Button = ({name,color="primary",width="100px",isDisabled=false,fn}) => {
 
+  console.log("button clicked")
+
     const buttonColors = {
       primary: "#007bff",
       success: "#28a745",

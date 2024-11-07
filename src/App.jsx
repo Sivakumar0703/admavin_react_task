@@ -1,19 +1,16 @@
 import './App.css';
-import Folder from './routes/Folder';
-import CreateDivOnClick from './routes/CreateDivOnClick';
-import HitGame from './routes/HitGame';
-import Buckets from './routes/Buckets';
-import InfiniteScroll from './routes/InfiniteScroll';
+import { useState } from 'react';
+import Home, { switchComponent } from './routes/Home';
+
 
 function App() {
 
+  const [showComponent , setShowComponent] = useState('bucket');
+
   return (
     <>
-      {/* <Buckets /> */}
-      {/* <InfiniteScroll /> */}
-      {/* <CreateDivOnClick /> */}
-      {/* <HitGame /> */}
-      <Folder/>
+      <Home setShowComponent={setShowComponent} />
+      {switchComponent(showComponent)}
     </>
   )
 }

@@ -13,6 +13,8 @@ const Folder = () => {
 
   return (
     <div id='folder-page'>
+      <h2 className="title">FOLDER STRUCTURE TASK </h2>
+    <div id='root-folder'>
 
       {
         data && 
@@ -28,6 +30,7 @@ const Folder = () => {
         })
       }
 
+    </div>
     </div>
   )
 }

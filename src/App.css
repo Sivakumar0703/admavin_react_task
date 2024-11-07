@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-/* common */
+/* common stylings used across all the components */
 
 #btn{
   padding: 10px;
@@ -15,7 +15,15 @@
   width:100px;
 }
 
-/* bucket component */
+/* bucket component stylings */
+
+#folder-page{
+  min-height: 100vh;
+}
+
+#root-folder{
+  position: absolute;
+}
 
 .default-page-stylings{
   padding: 15px;
@@ -60,7 +68,7 @@
   }
 }
 
-/* infinte scrolling component */
+/* infinte scrolling component stylings */
 
 #scrolling-page{
   background-color: aquamarine;
@@ -95,7 +103,7 @@
   margin-bottom: 20px;
 }
 
-/* box split component */
+/* box split component stylings */
 
 #box-split-page{
   display: flex;
@@ -148,12 +156,8 @@
   cursor: default;
 }
 
-/* folder structure component */
+/* folder structure component stylings */
 
-/* #folder-page{
-  padding:30px;
-  position: relative;
-} */
 .folder-items{
   margin: 5px;
   padding: 5px;
@@ -180,3 +184,15 @@
   background-color:cadetblue ;
 }
 
+/* home page component stylings */
+
+#home-page-container{
+  padding:15px;
+}
+
+#home-page-buttons-group{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+}
