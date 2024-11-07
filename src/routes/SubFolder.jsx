@@ -1,24 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const SubFolder = ({data}) => {
+const SubFolder = ({data,isActive,onClick}) => {
     const [showSubFolder , setShowSubFolder] = useState(false);
+    const [activeSub , setActiveSub] = useState(null); // track sub-folder id to set active-folder class
+
+    function handleActiveSub(id){
+        setActiveSub(id);
+    }
+
+    useEffect(() => {
+        if(!isActive){
+            setShowSubFolder(false);
+        }
+    },[isActive]);
 
 
-    // function appendAlert(){
-    //     const parent = document.getElementsByClassName('master')[0];
-    //     const div = document.createElement('div');
-    //     div.classList.add('right-side-folder');
-    //     div.classList.add('no-content');
-    //     div.innerText = "no files";
-    //     parent.append(div);
-    // }
-
-
-    function handleClick(){   
-        if(!data.children.length){
-            console.log("no files");
-            // appendAlert()
-        } 
+    function handleClick(){  
+        onClick(); // setting the active folder id
         setShowSubFolder(prev => !prev);
     }
 
@@ -28,7 +26,7 @@ const SubFolder = ({data}) => {
         
         {
             data && 
-            <div key={data.id} className='folder-items' onClick={handleClick}>
+            <div key={data.id} className={`folder-items ${isActive ? 'active-folder' : ''}`} onClick={handleClick}>
             <div className='icon-and-folder-name'>
             <span>
             {data.isFolder ? "📁" : "📄"} 
@@ -38,24 +36,30 @@ const SubFolder = ({data}) => {
             </div>
         }
 
-
-         
-
-        
+ {/* recursively calling sub-folders */}
             {
                 showSubFolder && 
-                data.children &&
+                data.children.length ?
                 <div className='right-side-folder'>
                 {data.children.map((sub) => {
-                    return <SubFolder key={sub.id} data={sub} />
+                    return <SubFolder 
+                    key={sub.id} 
+                    data={sub}
+                    isActive={sub.id == activeSub}
+                    onClick={() => handleActiveSub(sub.id)}
+                    />
                 })}
                 </div>
-                // : ""
-                // <div className='right-side-folder'>
-                //     {
-                //         <SubFolder data={ownData} />
-                //     }
-                // </div>
+                : 
+                // handling no sub-folder criteria
+                showSubFolder && 
+                <div className='right-side-folder'> 
+                    <div className="folder-items no-content">
+                        <div className='icon-and-folder-name'>
+                            <span>empty</span>
+                        </div>
+                    </div>
+                </div>
             }
 
 

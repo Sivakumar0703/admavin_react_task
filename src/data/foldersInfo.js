@@ -4,7 +4,26 @@ const data = [
         id:1,
         title:"Application",
         isFolder:true,
-        children:[]
+        children:[
+            {
+                id:18,
+                title:"Games",
+                isFolder:true,
+                children:[]
+            },
+            {
+                id:19,
+                title:"Calendar",
+                isFolder:true,
+                children:[]
+            },
+            {
+                id:20,
+                title:"names.txt",
+                isFolder:false,
+                children:[]
+            },
+        ]
     },
     {
         id:2,
@@ -16,7 +35,33 @@ const data = [
         id:3,
         title:"System",
         isFolder:true,
-        children:[]
+        children:[
+            {
+                id:21,
+                title:"Windows",
+                isFolder:true,
+                children:[
+                    {
+                        id:23,
+                        title:"Boot",
+                        isFolder:true,
+                        children:[]
+                    },
+                    {
+                        id:24,
+                        title:"Media",
+                        isFolder:true,
+                        children:[]
+                    },
+                ]
+            },
+            {
+                id:22,
+                title:"bin",
+                isFolder:true,
+                children:[]
+            },
+        ]
     },
     {
         id:4,

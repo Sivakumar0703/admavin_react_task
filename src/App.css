@@ -150,9 +150,10 @@
 
 /* folder structure component */
 
-#folder-structure-page{
+/* #folder-page{
   padding:30px;
-}
+  position: relative;
+} */
 .folder-items{
   margin: 5px;
   padding: 5px;
@@ -170,6 +171,12 @@
   top:0;
 } 
 
+.no-content{
+  padding-top: 15px;
+  margin-left: 20px;
+}
 
-
+.folder-items.active-folder{
+  background-color:cadetblue ;
+}
 
